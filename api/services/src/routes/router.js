@@ -1,33 +1,32 @@
 import express from 'express';
-import SeriesServices from "../services/SeriesServices.js";
-import SeriesAction from "../actions/seriesAction.js";
+import AteliersServices from "../services/AteliersServices.js";
+import AteliersAction from "../actions/ateliersAction.js";
 
-import PartiesServices from "../services/partiesServices.js";
-import PartiesAction from "../actions/partiesAction.js";
+import UsersServices from "../services/UsersServices.js";
+import userAction from "../actions/userAction.js";
 
 const router = express.Router();
 
-const seriesService = new SeriesServices();
-const seriesAction = new SeriesAction(seriesService);
+const ateliersService = new AteliersServices();
+const ateliersAction = new AteliersAction(ateliersService);
 
-const partyServices = new PartiesServices();
-const partyAction = new PartiesAction(partyServices);
+const usersServices = new UsersServices();
+const usersAction = new userAction(usersServices);
 
 //récupère la liste des série disponible -> choix de la série à la creation de la partie
 router
-    .route("/series")
-    .get(seriesAction.listerSeries.bind(seriesAction))
+    .route("/ateliers")
+    .get(ateliersAction.listerAteliers.bind(ateliersAction))
     .all((req, res, next) => next(405));
 
-//post pour créer la partie -> penser à fournir la série nécéssaire pour la création
-//réponse du post contient les data de la partie(token + liste de 10 items)
-//patch pour changer le statue de la partie ->CREATED ->IN PROGRESS ->FINISHED + SCORE à mettre à jour
 router
-    .route("/party")
-    .post(partyAction.createParty.bind(partyAction))
-    .patch(partyAction.updatePartyStatus.bind(partyAction))
+    .route("/ateliers/:id")
+    .get(ateliersAction.getAtelierByID.bind(ateliersAction))
     .all((req, res, next) => next(405));
 
-
+router
+    .route("/users")
+    .get(usersAction.getUser.bind(usersAction))
+    .all((req, res, next) => next(405));
 
 export default router;

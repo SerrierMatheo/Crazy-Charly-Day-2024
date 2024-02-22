@@ -4,16 +4,17 @@ import knexConfig from '../configs/db.config.js'
 
 const directusURL = 'http://directus:8055/graphql';
 
-class SeriesServices {
-    async getSeries() {
+class AteliersServices {
+    async getAteliers() {
         const query = `
-        query series {
-            Series {
-                title
-                difficulty
-                description
-                coordinates
-                maxzoom
+        query Atelier {
+            Atelier {
+                id
+                thematique
+                date_debut
+                date_fin
+                nb_places_totales
+                nb_places_dispo
             }
         }
     `;
@@ -37,26 +38,18 @@ class SeriesServices {
         }
     }
 
-    async getSerieById(id){
+    async getAtelierById(id){
         const query = `
-        query Series_by_id {
-            Series_by_id(id: ${id}) {
-                Items {
-                    id
-                    image {
-                        id
-                    }
-                    coordinates
-                    title
-                    description
-                }       
-                title
-                difficulty
-                coordinates
-                description
-                maxzoom
+        query Atelier_by_id {
+            Atelier_by_id(id: ${id}) {
+                id
+                thematique
+                date_debut
+                date_fin
+                nb_places_totales
+                nb_places_dispo
             }
-        }
+        }       
     `;
 
         try {
@@ -78,4 +71,4 @@ class SeriesServices {
     }
 }
 
-export default SeriesServices;
+export default AteliersServices;

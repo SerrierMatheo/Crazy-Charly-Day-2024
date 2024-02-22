@@ -14,7 +14,7 @@ app.use(cors()); // cors
 app.use(express.json()); //parse les données json
 app.use(express.urlencoded({ extended: false })); //parse les données provenant de formulaire
 
-
+app.use(router);
 
 app.get('/', (req, res) => {
     res.json({'message': 'Welcome on cooking-booking api!'});
