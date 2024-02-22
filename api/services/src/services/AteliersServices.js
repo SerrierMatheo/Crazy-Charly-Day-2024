@@ -10,6 +10,8 @@ class AteliersServices {
         query Atelier {
             Atelier {
                 id
+                nom
+                description
                 thematique
                 date_debut
                 date_fin
@@ -43,6 +45,8 @@ class AteliersServices {
         query Atelier_by_id {
             Atelier_by_id(id: ${id}) {
                 id
+                nom
+                description
                 thematique
                 date_debut
                 date_fin
