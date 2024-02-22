@@ -28,6 +28,7 @@ router
 router
     .route("/users")
     .get(usersAction.getUser.bind(usersAction))
+    //.post(userAction.validerVoeux.bind(userAction)) // à rajouter
     .all((req, res, next) => next(405));
 
 export default router;
