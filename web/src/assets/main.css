@@ -1,7 +1,20 @@
 @import url(_nav.scss);
-html {
+html{
   background-color: black;
   background: linear-gradient(to right, rgb(68, 7, 198), rgb(106, 48, 120));
+  height: 100%;
+}
+
+body{
+  height: 100%;
+}
+
+#app{
+  height: 100%;
+}
+
+.wrapper{
+  height: 80%;
 }
 
 .btn {
@@ -13,6 +26,7 @@ html {
   align-items: center;
   gap: 12px;
   background: white;
+  color: black;
   cursor: pointer;
   transition: all 450ms ease-in-out;
   border: none;

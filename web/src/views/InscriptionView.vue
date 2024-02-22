@@ -12,7 +12,7 @@ export default {
   <main class="day-text">
     <Register/>
     <div class="link">
-    <RouterLink to="/auth/login" class="link">Déja un compte? Se connecter.</RouterLink>
+    <div>Déja un compte ? <RouterLink to="/auth/login" class="link"> Se connecter.</RouterLink> </div>
   </div>
   </main>
 </template>

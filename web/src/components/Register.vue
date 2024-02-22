@@ -8,7 +8,7 @@
     <div class="field">
       <input placeholder="Email" class="input-field" v-model="email" id="email" name="email" type="email" required>
     </div>
-      <input value="Register" class="btn" type="submit">
+      <input value="Inscription" class="btn" type="submit">
     </form>
   </div>
 </template>

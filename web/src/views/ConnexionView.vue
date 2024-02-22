@@ -11,6 +11,6 @@ export default {
 <template>
   <main class="day-text">
     <Login/>
-    <RouterLink to="/auth/register" class="input-field">Pas de compte? S'inscrire.</RouterLink>
+    <div> Pas de compte ? <RouterLink to="/auth/register" class="link"> S'inscrire.</RouterLink> </div>
   </main>
 </template>

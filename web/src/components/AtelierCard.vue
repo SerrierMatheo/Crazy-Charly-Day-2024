@@ -5,7 +5,6 @@
         <h5 class="card-title">{{ atelier.nom }}</h5>
         <p class="card-text"> Thématique : {{ atelier.thematique }}</p>
         <p class="card-text">{{ atelier.description }}</p>
-        <p class="card-text"><small class="text-muted">Capacité : {{ atelier.nb_places_dispo }} personnes</small></p>
         <p class="card-text"><small class="text-muted">Date et Heure : {{ atelier.date_debut }} - {{ atelier.date_fin }}</small></p>
         <router-link :to="{ name: 'AtelierDetails', params: { id: atelier.id } }" class="btn btn-custom mb-2">Détails</router-link>
       </div>
