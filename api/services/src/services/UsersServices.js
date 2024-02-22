@@ -9,9 +9,9 @@ class UsersServices {
         try {
             const user = await db('users').select('*').where('email', '=', email).first();
             console.log(user);
-            return user; // Add this line to return the user object
+            return user;
         } catch (error) {
-            throw error; // You might want to handle the error appropriately, or log it
+            throw error;
         }
     }
 }
