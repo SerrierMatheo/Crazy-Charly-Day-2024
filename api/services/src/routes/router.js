@@ -17,6 +17,7 @@ const usersAction = new userAction(usersServices);
 router
     .route("/ateliers")
     .get(ateliersAction.listerAteliers.bind(ateliersAction))
+    .post(ateliersAction.createAteliers.bind(ateliersAction)) //non fonctionnel
     .all((req, res, next) => next(405));
 
 router

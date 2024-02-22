@@ -24,4 +24,27 @@ export default class ateliersAction {
             next(500);
         }
     }
+
+    async createAteliers(req, res, next) {
+        try {
+            const { nom, description, thematique, date_debut, date_fin, nb_places_totales } = req.body;
+
+            // Use the createAtelier function to create a new workshop
+            const createdAtelier = await this.#_service.createAtelier({
+                nom,
+                description,
+                thematique,
+                date_debut,
+                date_fin,
+                nb_places_totales,
+            });
+
+            res.json(createdAtelier);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            next(500);
+        }
+    }
+
 }
