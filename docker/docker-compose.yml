@@ -1,0 +1,108 @@
+version: '3'
+networks:
+  cooking-booking.net:
+    driver: bridge
+services:
+  #############################
+  ### Web with Apache ###
+  #############################
+
+  web:
+    image: httpd:latest
+    ports:
+      - "39209:80"
+    environment:
+      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
+      - https_proxy=http://www-cache-iutnc.univ-lorraine.fr:3128
+    volumes:
+      - ../web/dist:/usr/local/apache2/htdocs/cooking-booking
+    networks:
+      - cooking-booking.net
+
+  #
+  # service administration des bases sql
+  #
+  adminer:
+    image: adminer
+    command: php -S 0.0.0.0:8080 -t /var/www/html
+    ports:
+      - '8081:8080' ## 8081 40510
+    networks:
+      - cooking-booking.net
+
+  services.db:
+    image: 'mariadb:latest'
+    command: '--default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci'
+    env_file: ./services.env
+    ports:
+      - '3311:3306' ## 40509
+    networks:
+      - cooking-booking.net
+    volumes:
+      - ../api/services/sql:/var/sql
+      - ../api/services/sql:/docker-entrypoint-initdb.d
+
+  api.services:
+    image: node:alpine
+    working_dir: /usr/app
+    command: sh -c "npm i && npm run dev" #for development only
+    #command: sh -c "npm i && npm start" #for production only
+    volumes:
+      - ../api/services:/usr/app
+    ports:
+      - '3333:3333'
+    networks:
+      - cooking-booking.net
+    env_file:
+      - ./services.env
+    depends_on:
+      - services.db
+
+  directus.db:
+    image: postgis/postgis:13-master
+    # Required when running on platform other than amd64, like Apple M1/M2:
+    # platform: linux/amd64
+    networks:
+      - cooking-booking.net
+    volumes:
+      - ../api/directus/data/database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "directus"
+      POSTGRES_PASSWORD: "directus"
+      POSTGRES_DB: "directus"
+
+  cache:
+    image: redis:6
+    networks:
+      - cooking-booking.net
+
+  directus:
+    image: directus/directus:10.9.0
+    ports:
+      - '8055:8055'
+    volumes:
+      - ../api/directus/uploads:/directus/uploads
+      # If you want to load extensions from the host
+      # - ./extensions:/directus/extensions
+    depends_on:
+      - cache
+      - directus.db
+    networks:
+      - cooking-booking.net
+    environment:
+      KEY: "255d861b-5ea1-5996-9aa3-922530ec40b1"
+      SECRET: "6116487b-cda1-52c2-b5b5-c8022c45e263"
+
+      DB_CLIENT: "pg"
+      DB_HOST: "directus.db"
+      DB_PORT: "5432"
+      DB_DATABASE: "directus"
+      DB_USER: "directus"
+      DB_PASSWORD: "directus"
+
+      CACHE_ENABLED: "false"
+      CACHE_STORE: "redis"
+      REDIS: "redis://cache:6379"
+
+      ADMIN_EMAIL: "admin@example.com"
+      ADMIN_PASSWORD: "d1r3ctu5"
